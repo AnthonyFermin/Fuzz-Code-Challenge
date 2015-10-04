@@ -1,4 +1,4 @@
-package nyc.anthonyfermin.codechallenge;
+package nyc.anthonyfermin.codechallenge.request;
 
 import android.util.Log;
 
@@ -12,9 +12,13 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+import nyc.anthonyfermin.codechallenge.objects.DisplayData;
+import nyc.anthonyfermin.codechallenge.objects.DisplayDataList;
+
 /**
- * Created by c4q-anthonyf on 10/4/15.
+ * Converts JsonArray into an ArrayList of DisplayData
  */
+
 public class DataListDeserializer implements JsonDeserializer<DisplayDataList> {
     @Override
     public DisplayDataList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

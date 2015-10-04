@@ -1,16 +1,25 @@
 package nyc.anthonyfermin.codechallenge;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.anthonyfermin.codechallenge.adapters.DataListAdapter;
+import nyc.anthonyfermin.codechallenge.objects.DisplayData;
+import nyc.anthonyfermin.codechallenge.objects.DisplayDataList;
+import nyc.anthonyfermin.codechallenge.request.DataListDeserializer;
+import nyc.anthonyfermin.codechallenge.request.DataRetrofit;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -35,6 +44,11 @@ public class DataListActivity extends AppCompatActivity {
         getData();
     }
 
+    /*
+     * Retrofit uses okhttp to retrieve the json from the endpoint,
+     * then uses gson to convert the json into it's object representation.
+     * The adapter is set once the data is retrieved and converted
+     */
     private void getData() {
         dataList = new ArrayList<>();
 
@@ -51,7 +65,7 @@ public class DataListActivity extends AppCompatActivity {
             @Override
             public void success(DisplayDataList displayDataList, Response response) {
                 dataList = displayDataList.getDisplayDataList();
-                if(dataList != null) {
+                if (dataList != null) {
                     setAdapter();
                     Log.d("DataListActivity", "retrofit success");
                 }
@@ -66,7 +80,7 @@ public class DataListActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Log.d("DATALISTACTIVITY","DATA SIZE:" + dataList.size());
+        Log.d("DATALISTACTIVITY", "DATA SIZE:" + dataList.size());
         dataListRV.setLayoutManager(new LinearLayoutManager(this));
         DataListAdapter adapter = new DataListAdapter(this, dataList);
         dataListRV.setAdapter(adapter);
@@ -74,5 +88,23 @@ public class DataListActivity extends AppCompatActivity {
 
     private void bindViews() {
         dataListRV = (RecyclerView) findViewById(R.id.data_list);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // no switch-case needed, about is the only option
+        Intent aboutIntent = new Intent(this, AboutActivity.class);
+        startActivity(aboutIntent);
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

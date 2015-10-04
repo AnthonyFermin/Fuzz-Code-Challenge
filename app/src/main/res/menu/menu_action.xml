@@ -10,5 +10,8 @@
         android:title="forward"
         android:icon="@drawable/ic_forward"
         myApp:showAsAction="always" />
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        myApp:showAsAction="never" />
 
 </menu>

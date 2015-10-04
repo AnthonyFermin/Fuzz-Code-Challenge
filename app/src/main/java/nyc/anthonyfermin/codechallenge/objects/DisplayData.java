@@ -1,4 +1,4 @@
-package nyc.anthonyfermin.codechallenge;
+package nyc.anthonyfermin.codechallenge.objects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,10 +1,8 @@
-package nyc.anthonyfermin.codechallenge;
+package nyc.anthonyfermin.codechallenge.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,11 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import nyc.anthonyfermin.codechallenge.ImageViewActivity;
+import nyc.anthonyfermin.codechallenge.R;
+import nyc.anthonyfermin.codechallenge.WebActivity;
+import nyc.anthonyfermin.codechallenge.objects.DisplayData;
 
 /**
  * Created by c4q-anthonyf on 10/3/15.
@@ -194,6 +197,7 @@ public class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 break;
         }
+
     }
 
     @Override

@@ -1,10 +1,11 @@
-package nyc.anthonyfermin.codechallenge;
+package nyc.anthonyfermin.codechallenge.request;
 
+import nyc.anthonyfermin.codechallenge.objects.DisplayDataList;
 import retrofit.Callback;
 import retrofit.http.GET;
 
 /**
- * Created by c4q-anthonyf on 10/3/15.
+ * Interface used for data retrieval with Retrofit
  */
 public interface DataRetrofit {
 

@@ -3,4 +3,7 @@
     <string name="no_data">No Data</string>
     <string name="failed_to_load_page">Error! The page failed to load</string>
     <string name="failed_to_load_image">Unable to load image</string>
+    <string name="about">About</string>
+    <string name="fuzz_code_challenge">Fuzz Code Challenge</string>
+    <string name="about_app">Name: Anthony Fermin\nDate Finished: 10/4/2015\nAndroid Developer\n\nLibrary Dependencies:\nRetrofit\nPicasso\nRecylerView\nCardView</string>
 </resources>
