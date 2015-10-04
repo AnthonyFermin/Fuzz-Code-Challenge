@@ -66,8 +66,8 @@ public class DataListActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
+        Log.d("DATALISTACTIVITY","DATA SIZE:" + dataList.size());
         dataListRV.setLayoutManager(new LinearLayoutManager(this));
-        dataListRV.setHasFixedSize(true);
         DataListAdapter adapter = new DataListAdapter(this, dataList);
         dataListRV.setAdapter(adapter);
     }

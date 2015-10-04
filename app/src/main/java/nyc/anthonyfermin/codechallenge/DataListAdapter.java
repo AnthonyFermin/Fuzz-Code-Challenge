@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -36,11 +40,13 @@ public class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private class TextViewHolder extends RecyclerView.ViewHolder {
 
+        public LinearLayout container;
         public TextView textTV;
 
         public TextViewHolder(View itemView) {
             super(itemView);
             textTV = (TextView) itemView.findViewById(R.id.text);
+            container = (LinearLayout) itemView.findViewById(R.id.container);
 
             textTV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,12 +62,14 @@ public class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private class ImageViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView image;
-        public LinearLayout container;
+        public RelativeLayout container;
+        public ProgressBar progressBar;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
-            container = (LinearLayout) itemView.findViewById(R.id.container);
+            container = (RelativeLayout) itemView.findViewById(R.id.container);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
 
             image.setOnClickListener(new View.OnClickListener() {
 
@@ -117,11 +125,7 @@ public class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_list_item, parent, false);
                 return new AllDataViewHolder(itemView);
         }
-
-
     }
-
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -132,26 +136,62 @@ public class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch(viewType){
             case TEXT_VIEW_TYPE:
                 final TextViewHolder textHolder = (TextViewHolder) holder;
-                textHolder.textTV.setText(displayData.getData());
+                textHolder.container.setVisibility(View.VISIBLE);  //ensures container is initially visible when textHolder is recycled
+                String text = displayData.getData();
+                if(text == null || text.isEmpty()){
+                    textHolder.textTV.setText(context.getResources().getString(R.string.no_data));
+                }else {
+                    textHolder.textTV.setText(text);
+                }
                 break;
             case IMAGE_VIEW_TYPE:
                 final ImageViewHolder imageHolder = (ImageViewHolder) holder;
-                Picasso.Builder builder = new Picasso.Builder(context);
-                builder.listener(new Picasso.Listener() {
+                imageHolder.progressBar.setVisibility(View.VISIBLE); //ensures progressBar is initially visible when textHolder is recycled
+
+                Picasso.with(context).load(displayData.getData()).centerCrop().fit().into(imageHolder.image, new Callback() {
                     @Override
-                    public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                    public void onSuccess() {
+                        imageHolder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        imageHolder.progressBar.setVisibility(View.GONE);
                         imageHolder.image.setImageResource(R.drawable.error_image);
                     }
                 });
-                builder.build().load(displayData.getData()).centerCrop().fit().into(imageHolder.image);
                 break;
             case ALL_VIEW_TYPE:
                 AllDataViewHolder viewHolder = (AllDataViewHolder) holder;
 
-                viewHolder.dateTV.setText(displayData.getDate());
-                viewHolder.idTV.setText(displayData.getId());
-                viewHolder.textTV.setText(displayData.getData());
-                viewHolder.typeTV.setText(displayData.getType());
+                String data = displayData.getData();
+                String date = displayData.getDate();
+                String type = displayData.getType();
+                String id = displayData.getId();
+
+                if(date == null || date.isEmpty()){
+                    viewHolder.dateTV.setText("Date: " + context.getResources().getString(R.string.no_data));
+                }else {
+                    viewHolder.dateTV.setText("Date: " + displayData.getDate());
+                }
+
+                if(id == null || id.isEmpty()) {
+                    viewHolder.idTV.setText("ID: " + context.getResources().getString(R.string.no_data));
+                }else {
+                    viewHolder.idTV.setText("ID: " + displayData.getId());
+                }
+
+                if(data == null || data.isEmpty()){
+                    viewHolder.textTV.setText(context.getResources().getString(R.string.no_data));
+                }else {
+                    viewHolder.textTV.setText(displayData.getData());
+                }
+
+                if(type == null || type.isEmpty()){
+                    viewHolder.typeTV.setText("Type: " + context.getResources().getString(R.string.no_data));
+                }else {
+                    viewHolder.typeTV.setText("Type: " + displayData.getType());
+                }
                 break;
         }
     }
