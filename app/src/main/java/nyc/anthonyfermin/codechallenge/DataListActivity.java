@@ -22,8 +22,8 @@ import retrofit.converter.GsonConverter;
  */
 public class DataListActivity extends AppCompatActivity {
 
-    RecyclerView dataListRV;
-    List<DisplayData> dataList;
+    private RecyclerView dataListRV;
+    private List<DisplayData> dataList;
     private static final String ENDPOINT = "http://quizzes.fuzzstaging.com/quizzes/mobile/1/data.json";
 
     @Override

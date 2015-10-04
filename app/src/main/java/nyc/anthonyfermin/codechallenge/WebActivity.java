@@ -3,6 +3,9 @@ package nyc.anthonyfermin.codechallenge;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -51,5 +54,34 @@ public class WebActivity extends AppCompatActivity {
     private void bindViews() {
         webView = (WebView) findViewById(R.id.webview);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        switch(itemId){
+            case R.id.back_button:
+
+                if(webView.canGoBack())
+                    webView.goBack();
+                break;
+            case R.id.forward_button:
+                if(webView.canGoForward())
+                    webView.goForward();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_action, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
